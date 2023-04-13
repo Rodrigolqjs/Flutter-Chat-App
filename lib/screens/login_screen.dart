@@ -1,5 +1,9 @@
+import 'package:chat_app/helpers/showAlert.dart';
 import 'package:chat_app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../services/services.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -45,6 +49,7 @@ class _FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: Form(
@@ -81,9 +86,22 @@ class _FormState extends State<_Form> {
               ),
               child: CustomButton(
                 text: 'Login',
-                onPressed: () {
-                  //
-                },
+                onPressed: !authService.autenticando
+                    ? () async {
+                        FocusScope.of(context).unfocus();
+                        final loginOk = await authService.login(
+                            emailController.text.trim(),
+                            passwordController.text.trim());
+                        if (loginOk) {
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacementNamed(context, 'users');
+                        } else {
+                          // ignore: use_build_context_synchronously
+                          showAlert(context, 'Error en Login',
+                              'Revise las credenciales');
+                        }
+                      }
+                    : null,
               ),
             ),
           ],
