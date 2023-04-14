@@ -1,4 +1,5 @@
 import 'package:chat_app/helpers/showAlert.dart';
+import 'package:chat_app/services/socket_service.dart';
 import 'package:chat_app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,9 +25,10 @@ class LoginScreen extends StatelessWidget {
                 _Form(),
                 //
                 CustomTexts(
-                    text1: "Don't have an account yet?",
-                    text2: 'Register Now',
-                    routeName: 'register')
+                  text1: "Don't have an account yet?",
+                  text2: 'Register Now',
+                  routeName: 'register',
+                )
               ],
             ),
           ),
@@ -50,6 +52,7 @@ class _FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
+    final socketService = Provider.of<SocketService>(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: Form(
@@ -94,6 +97,7 @@ class _FormState extends State<_Form> {
                             passwordController.text.trim());
                         if (loginOk) {
                           // ignore: use_build_context_synchronously
+                          socketService.connect();
                           Navigator.pushReplacementNamed(context, 'users');
                         } else {
                           // ignore: use_build_context_synchronously

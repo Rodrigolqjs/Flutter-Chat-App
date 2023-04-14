@@ -12,7 +12,7 @@ class AuthService with ChangeNotifier {
   User? user;
   bool _autenticando = false;
 
-  final _storage = FlutterSecureStorage();
+  final _storage = const FlutterSecureStorage();
 
   bool get autenticando => _autenticando;
   set autenticando(bool val) {
@@ -85,12 +85,12 @@ class AuthService with ChangeNotifier {
 
     if (resp.statusCode == 200) {
       final loginRes = LoginResponse.fromJson(resp.body);
+      user = loginRes.user;
       await _saveToken(loginRes.token);
 
       return true;
     } else {
       logout('token');
-
       return false;
     }
   }

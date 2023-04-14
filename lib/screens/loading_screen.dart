@@ -3,6 +3,8 @@ import 'package:chat_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../services/socket_service.dart';
+
 class LoadingScreen extends StatelessWidget {
   const LoadingScreen({Key? key}) : super(key: key);
 
@@ -21,10 +23,14 @@ class LoadingScreen extends StatelessWidget {
   }
 
   Future checkLoginState(BuildContext context) async {
+    //* Para borrar token
+    // AuthService.logout('token');
     final authService = Provider.of<AuthService>(context, listen: false);
+    final socketService = Provider.of<SocketService>(context, listen: false);
+
     final autenticado = await authService.isLoggedIn();
     if (autenticado) {
-      //Conectar al Socket Server
+      socketService.connect();
       // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,
