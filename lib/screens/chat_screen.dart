@@ -71,44 +71,45 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final recipient = chatService?.recipient;
     return Scaffold(
-        appBar: AppBar(
-          iconTheme: const IconThemeData(color: Colors.black),
-          backgroundColor: Colors.white,
-          title: Column(
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.lightBlueAccent,
-                maxRadius: 14,
-                child: Text(recipient!.name.substring(0, 2),
-                    style: const TextStyle(fontSize: 12)),
-              ),
-              const SizedBox(height: 3),
-              Text(
-                recipient.name,
-                style: const TextStyle(color: Colors.black87, fontSize: 14),
-              )
-            ],
-          ),
+      appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
+        title: Column(
+          children: [
+            CircleAvatar(
+              backgroundColor: Colors.lightBlueAccent,
+              maxRadius: 14,
+              child: Text(recipient!.name.substring(0, 2),
+                  style: const TextStyle(fontSize: 12)),
+            ),
+            const SizedBox(height: 3),
+            Text(
+              recipient.name,
+              style: const TextStyle(color: Colors.black87, fontSize: 14),
+            )
+          ],
         ),
-        body: Container(
-          child: Column(
-            children: [
-              Flexible(
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: _messages.length,
-                  itemBuilder: (context, index) => _messages[index],
-                  reverse: true,
-                ),
+      ),
+      body: Container(
+        child: Column(
+          children: [
+            Flexible(
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: _messages.length,
+                itemBuilder: (context, index) => _messages[index],
+                reverse: true,
               ),
-              const Divider(height: 1),
-              Container(
-                color: Colors.white70,
-                child: _inputChat(),
-              )
-            ],
-          ),
-        ));
+            ),
+            const Divider(height: 1),
+            Container(
+              color: Colors.white70,
+              child: _inputChat(),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _inputChat() {
